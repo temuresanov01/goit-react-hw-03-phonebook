@@ -17,6 +17,24 @@ class App extends Component {
     filter: '',
   };
 
+  //хранение контактов телефонной книги в localStorage
+
+  componentDidMount() {
+    const items = localStorage.getItem('contacts');
+    if (items) {
+      const parsedContacts = JSON.parse(items);
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
+  //--------------------------------------------------
+
   submitNewContact = data => {
     const newTodo = {
       name: data.name,
